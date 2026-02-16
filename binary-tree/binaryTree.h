@@ -10,7 +10,6 @@ typedef struct node
 }Tree;
 
 Tree* createTree();
-Tree* insertNode(Tree* t, int data);
 Tree* buildTree(int data, Tree* left, Tree* right);
 
 void preOrder(Tree* t);

@@ -8,12 +8,12 @@ DLList* create()
 
 DLList* insertBack(DLList* l, int data)
 {
-        DLList* node = (DLList*)malloc(sizeof(DLList));
-        node->data = data;
-        node->next = l;
-        node->prev = NULL;
-        if(l != NULL){l->prev = node;}
-        return node;
+    DLList* node = (DLList*)malloc(sizeof(DLList));
+    node->data = data;
+    node->next = l;
+    node->prev = NULL;
+    if(l != NULL){l->prev = node;}
+    return node;
 }
 
 DLList* insertFront(DLList* l, int data)
@@ -21,14 +21,17 @@ DLList* insertFront(DLList* l, int data)
     DLList* node = (DLList*)malloc(sizeof(DLList));
     node->data = data;
     node->next = NULL;
+    node->prev = NULL;
+
+    if(l == NULL){return node;}
     
     DLList* t = l;
+    
     while(t->next != NULL){t = t->next;}
     t->next = node;
     node->prev = t;
 
     return l;
-
 }
 
 void printDLList(DLList* l)

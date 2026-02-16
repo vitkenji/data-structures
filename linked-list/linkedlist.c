@@ -49,6 +49,7 @@ List* removeData(List* l, int data)
     if(t == NULL){return l;}
     if(p == NULL){l = t->next;}
     else{p->next = t->next;}
+    free(t);
     return l;
 
 }

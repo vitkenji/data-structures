@@ -3,14 +3,20 @@
 int shouldInsertBack()
 {
     DLList* l = create();
-    l = insert(l, 10);
-    return l->data == 10;
+    l = insertBack(l, 10);
+    l = insertBack(l, 20);
+    l = insertBack(l,30);
+    //printDLList(l);
+    return l->data == 30;
 }
 
 int shouldInsertFront()
 {
     DLList* l = create();
-    l = insert(l, 10);
+    l = insertFront(l, 10);
+    l = insertFront(l, 20);
+    l = insertFront(l, 30);
+    //printDLList(l);
     return l->data == 10;
 }
 
@@ -22,8 +28,10 @@ int shouldRemove()
     {
         l = insertFront(l, i * 10);
     }
-    l = removeData(l, 10);
-    return search(l, 10) == NULL;
+    printDLList(l);
+    l = removeData(l, 30);
+    printDLList(l);
+    return search(l, 30) == NULL;
 }
 
 int shouldSearch()
@@ -42,10 +50,10 @@ int fullTest()
 
     for (int i = 1; i <= 5; i++)
     {
-        l = insert(l, i * 10);
+        l = insertBack(l, i * 10);
     }
 
-    printList(l);
+    printDLList(l);
 
     for (int i = 1; i <= 5; i++)
     {
@@ -57,7 +65,7 @@ int fullTest()
     l = removeData(l, 20);
     l = removeData(l, 40);
 
-    printList(l);
+    printDLList(l);
 
     if (search(l, 20) != NULL) return 0;
     if (search(l, 40) != NULL) return 0;
@@ -66,10 +74,10 @@ int fullTest()
     if (search(l, 30) == NULL) return 0;
     if (search(l, 50) == NULL) return 0;
 
-    l = insert(l, 60);
-    l = insert(l, 70);
+    l = insertBack(l, 60);
+    l = insertBack(l, 70);
 
-    printList(l);
+    printDLList(l);
 
     if (search(l, 60) == NULL) return 0;
     if (search(l, 70) == NULL) return 0;
@@ -81,15 +89,16 @@ int main()
 {
     int tests_passed = 0;
     int tests_failed = 0;
-    /*
+    
     shouldInsertBack() == 1 ? tests_passed++ : tests_failed++;
     shouldInsertFront() == 1 ? tests_passed++ : tests_failed++;
     shouldRemove() == 1 ? tests_passed++ : tests_failed++;
     shouldSearch() == 1 ? tests_passed++ : tests_failed++;
     fullTest() == 1 ? tests_passed++ : tests_failed++;
-    */
+    
     printf("%d Tests passed\n", tests_passed);
     printf("%d Tests failed\n", tests_failed);
+
 
     return 0;
 }

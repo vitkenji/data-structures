@@ -6,11 +6,6 @@ Tree* createTree()
 
 }
 
-Tree* insertNode(Tree* t, int data)
-{
-    return NULL;
-}
-
 Tree* buildTree(int data, Tree* left, Tree* right)
 {
     Tree* t = (Tree*) malloc(sizeof(Tree));
