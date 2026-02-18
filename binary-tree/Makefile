@@ -1,5 +1,5 @@
 all: 
-	gcc main.c binary_tree.c -o main
+	gcc main.c binary-tree.c exercises.c -o main
 
 run: all
 	./main

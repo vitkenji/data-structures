@@ -1,3 +1,6 @@
-#include "binary_tree.h"
+#include "binary-tree.h"
 
-int height(Tree* t);
+int countNodes(Tree* t);
+int calculateHeight(Tree* t);
+int countLeaves(Tree* t);
+int sumLeaves(Tree* t);

@@ -1,12 +1,64 @@
 #include "exercises.h"
 
-int height(Tree* t)
+int countNodes(Tree* t)
 {
-    if(t == NULL)
+    if(t != NULL)
     {
-        return 0;
+        return (1 + countNodes(t->left) + countNodes(t->right));
     }
-    int left = height(t->left);
-    int right = height(t->right);
-    return left > right ? left + 1 : right + 1;
+    return 0;
+
+}
+
+int countLeaves(Tree* t)
+{
+    if(t != NULL)
+    {
+        if(t->left == NULL && t->right == NULL)
+        {
+            return 1;
+        }
+        else
+        {
+            return countLeaves(t->left) + countLeaves(t->right);
+        }
+        
+    }
+    return 0;
+}
+
+int calculateHeight(Tree* t)
+{
+    if(t != NULL)
+    {
+        int leftHeight = calculateHeight(t->left);
+        int rightHeight = calculateHeight(t->right);
+
+        if(leftHeight > rightHeight)
+        {
+            return 1 + leftHeight;
+
+        }
+        else
+        {
+            return 1 + rightHeight;
+        }
+    }
+    return 0;
+}
+
+int sumLeaves(Tree* t)
+{
+    if(t != NULL)
+    {
+         if(t->left == NULL && t->right == NULL)
+        {
+            return t->data;
+        }
+         else
+        {
+            return sumLeaves(t->left) + sumLeaves(t->right);
+        }
+    }
+    return 0;
 }

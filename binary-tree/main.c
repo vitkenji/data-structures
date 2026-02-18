@@ -1,10 +1,12 @@
-#include "binary_tree.h"
-#include <string.h>
+#include "binary-tree.h"
 #include "exercises.h"
+#include <string.h>
+#include <io.h>
+#include <unistd.h>
 
 char* captureOutput(void (*traverse)(Tree*), Tree* t)
 {
-    FILE* temp = tmpfile();
+    FILE* temp = fopen("local_temp_output.txt", "w+");
     if (!temp) return NULL;
 
     fflush(stdout);
@@ -19,9 +21,15 @@ char* captureOutput(void (*traverse)(Tree*), Tree* t)
 
     fseek(temp, 0, SEEK_SET);
     char* buffer = malloc(256);
-    fread(buffer, 1, 255, temp);
-    buffer[255] = '\0';
+    
+    if (buffer)
+    {
+        size_t bytesRead = fread(buffer, 1, 255, temp);
+        buffer[bytesRead] = '\0'; 
+    }
+    
     fclose(temp);
+    remove("local_temp_output.txt"); 
 
     return buffer;
 }
@@ -33,6 +41,13 @@ int shouldPreOrder()
                 insertNode(3, NULL, NULL));
 
     char* output = captureOutput(preOrder, t);
+
+    if (output == NULL)
+    {
+        printf("error: captureOutput failed to return a string.\n");
+        return 0; 
+    }
+
     int result = strcmp(output, "1 2 4 5 3 ") == 0;
     free(output);
     return result;
@@ -45,6 +60,13 @@ int shouldInOrder()
                 insertNode(3, NULL, NULL));
 
     char* output = captureOutput(inOrder, t);
+
+    if (output == NULL)
+    {
+        printf("error: captureOutput failed to return a string.\n");
+        return 0; 
+    }
+
     int result = strcmp(output, "4 2 5 1 3 ") == 0;
     free(output);
     return result;
@@ -57,6 +79,13 @@ int shouldPostOrder()
                 insertNode(3, NULL, NULL));
 
     char* output = captureOutput(postOrder, t);
+
+    if (output == NULL)
+    {
+        printf("error: captureOutput failed to return a string.\n");
+        return 0; 
+    }
+
     int result = strcmp(output, "4 5 2 3 1 ") == 0;
     free(output);
     return result;
@@ -74,8 +103,6 @@ int shouldInsertNode()
     t = insertNode(10, insertNode(20, NULL, NULL), insertNode(30, NULL, NULL));
     return (t->data == 10 && t->left->data == 20 && t->right->data == 30);
 }
-
-
 
 int main()
 {
