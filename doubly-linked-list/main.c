@@ -26,9 +26,9 @@ int shouldRemove()
     {
         l = insertFront(l, i * 10);
     }
-    printDLList(l);
+    //printDLList(l);
     l = removeData(l, 30);
-    printDLList(l);
+    //printDLList(l);
     return search(l, 30) == NULL;
 }
 
@@ -44,52 +44,21 @@ int shouldSearch()
 
 int fullTest()
 {
-   DLList* l = create();
-
-    for (int i = 1; i <= 5; i++)
-    {
-        l = insertBack(l, i * 10);
-    }
-
-    printDLList(l);
-
-    for (int i = 1; i <= 5; i++)
-    {
-        DLList* found = search(l, i * 10);
-        if (found == NULL || found->data != i * 10)
-            return 0;
-    }
-
+    DLList* l = create();
+    
+    l = insertFront(l, 20);
+    l = insertBack(l, 30);
+    l = insertFront(l, 10);
+    
+    if (search(l, 10) == NULL || search(l, 30) == NULL) return 0;
+    
     l = removeData(l, 20);
-    l = removeData(l, 30);
-
-    printDLList(l);
-
     if (search(l, 20) != NULL) return 0;
-    if (search(l, 40) != NULL) return 0;
-
-    if (search(l, 100) == NULL || search(l, 200) == NULL || search(l, 300) == NULL)
-        passed = 0;
-
-    l = removeData(l, 100);
-    l = removeData(l, 200);
-    l = removeData(l, 300);
-
-    if (search(l, 100) != NULL || search(l, 200) != NULL || search(l, 300) != NULL)
-        passed = 0;
-
-    l = insertBack(l, 60);
-    l = insertBack(l, 70);
-
-    printDLList(l);
-
-    if (search(l, 3) == NULL || search(l, 4) == NULL || search(l, 5) == NULL)
-        passed = 0;
-
-    if (search(l, 1) != NULL || search(l, 2) != NULL)
-        passed = 0;
-
-    return passed;
+    
+    l = removeData(l, 10);
+    l = removeData(l, 30);
+    
+    return l == NULL;
 }
   
 int main()
