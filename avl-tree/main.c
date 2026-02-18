@@ -2,11 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <io.h>
 #include <unistd.h>
 
 char* captureOutput(void (*traverse)(AvlTree*), AvlTree* t)
 {
-    FILE* temp = tmpfile();
+    FILE* temp = fopen("local_temp_output.txt", "w+");
     if (!temp) return NULL;
 
     fflush(stdout);
@@ -21,9 +22,15 @@ char* captureOutput(void (*traverse)(AvlTree*), AvlTree* t)
 
     fseek(temp, 0, SEEK_SET);
     char* buffer = malloc(256);
-    fread(buffer, 1, 255, temp);
-    buffer[255] = '\0';
+    
+    if (buffer)
+    {
+        size_t bytesRead = fread(buffer, 1, 255, temp);
+        buffer[bytesRead] = '\0'; 
+    }
+    
     fclose(temp);
+    remove("local_temp_output.txt"); 
 
     return buffer;
 }
