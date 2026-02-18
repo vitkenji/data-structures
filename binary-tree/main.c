@@ -104,6 +104,46 @@ int shouldInsertNode()
     return (t->data == 10 && t->left->data == 20 && t->right->data == 30);
 }
 
+int shouldCountNodes()
+{
+    Tree* t = insertNode(1,
+                insertNode(2, insertNode(4, NULL, NULL), NULL),
+                insertNode(3, NULL, NULL));
+    
+    int result = countNodes(t);
+    return result == 4;
+}
+
+int shouldCalculateHeight()
+{
+    Tree* t = insertNode(1,
+                insertNode(2, insertNode(4, NULL, NULL), insertNode(5, NULL, NULL)),
+                insertNode(3, NULL, NULL));
+    
+    int result = calculateHeight(t);
+    return result == 3;
+}
+
+int shouldCountLeaves()
+{
+    Tree* t = insertNode(1,
+                insertNode(2, insertNode(4, NULL, NULL), insertNode(5, NULL, NULL)),
+                insertNode(3, NULL, NULL));
+    
+    int result = countLeaves(t);
+    return result == 3;
+}
+
+int shouldSumLeaves()
+{
+    Tree* t = insertNode(10,
+                insertNode(20, insertNode(5, NULL, NULL), insertNode(5, NULL, NULL)),
+                insertNode(30, NULL, NULL));
+    
+    int result = sumLeaves(t);
+    return result == 40; 
+}
+
 int main()
 {
     int tests_passed = 0;
@@ -113,6 +153,11 @@ int main()
     shouldPreOrder() == 1 ? tests_passed++ : tests_failed++;
     shouldInOrder() == 1 ? tests_passed++ : tests_failed++;
     shouldPostOrder() == 1 ? tests_passed++ : tests_failed++;
+    shouldCountNodes() == 1 ? tests_passed++ : tests_failed++;
+    shouldCalculateHeight() == 1 ? tests_passed++ : tests_failed++;
+    shouldCountLeaves() == 1 ? tests_passed++ : tests_failed++;
+    shouldSumLeaves() == 1 ? tests_passed++ : tests_failed++;
+
     printf("%d Tests passed\n", tests_passed);
     printf("%d Tests failed\n", tests_failed);
 
