@@ -1,86 +1,56 @@
 #include "priorityQueue.h"
 
-int heapMaximum(int* array)
+int heapMaximum(PQueue* q)
 {
-    return array[0];
-}
-
-int heapExtractMax(int* array, int* size)
-{
-    if(*size < 1)
+    if(q->n == 0)
     {
-        printf("heap underflow");
+        printf("Empty queue\n");
         exit(1);
     }
-    int max = array[0];
-    array[0] = array[*size -1];
-    (*size)--;
-    maxHeapify(array, *size, 0);
+    return q->array[0];
+}
+
+int heapExtractMax(PQueue* q)
+{
+    if(q->n < 1)
+    {
+        printf("Error: heap underflow\n");
+        exit(1);
+    }
+    int max = q->array[0];
+    q->array[0] = q->array[q->n - 1];
+    q->index[0] = q->index[q->n - 1];
+    q->n--;
+    maxHeapify(q, 0);
     return max;
 }
 
-void heapIncreaseKey(int* array, int index, int key)
+void heapIncreaseKey(PQueue* q, int index, int key)
 {
-    if(key < array[index])
+    if(key < q->array[index])
     {
-        printf("new key is lower than actual key");
+        printf("Error: new key is lower than actual key\n");
         exit(1);
     }
-    array[index] = key;
+    q->array[index] = key;
     
-    while(index > 0 && array[parent(index)] < array[index])
+    while(index > 0 && q->array[parent(index)] < q->array[index])
     {
-        swap(array, index, parent(index));
+        swap(q, index, parent(index));
         index = parent(index);
     }
 }
 
-void maxHeapInsert(int* array, int* size, int key)
+void maxHeapInsert(PQueue* q, int key, int index)
 {
-    (*size)++;
-    array[(*size)] = -INT_MAX;
-    heapIncreaseKey(array, (*size) - 1, key);
-}
-
-int heapMinimum(int* array)
-{
-    return array[0];
-}
-
-int heapExtractMin(int* array, int* size)
-{
-    if(*size < 1)
+    if(q->n >= q->size)
     {
-        printf("heap underflow");
-        exit(1);
+        printf("Error: heap overflow\n");
+        return;
     }
-    int min = array[0];
-    array[0] = array[*size - 1];
-    (*size)--;
-    minHeapify(array, *size, 0);
-    return min;
-
+    q->n++;
+    q->index[q->n - 1] = index;
+    q->array[q->n - 1] = -INT_MAX;
+    heapIncreaseKey(q, q->n - 1, key);
 }
 
-void heapDecreaseKey(int* array, int index, int key)
-{
-    if(key > array[index])
-    {
-        printf("new key is higher than actual key");
-        exit(1);
-    }
-    array[index] = key;
-    while(index > 0 && array[parent(index)] > array[index])
-    {
-        swap(array, index, parent(index));
-        index = parent(index);
-    }
-
-}
-
-void minHeapInsert(int* array, int* size, int key)
-{
-    (*size)++;
-    array[(*size)] = -INT_MAX;
-    heapDecreaseKey(array, *size - 1, key);
-}

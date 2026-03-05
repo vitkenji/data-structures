@@ -1,5 +1,16 @@
 #include "heap.h"
 
+PQueue* createPQueue(int size)
+{
+    PQueue* q = (PQueue*) malloc(sizeof(PQueue));
+    q->array = (int*) malloc(sizeof(int) * size);
+    q->index = (int*) malloc(sizeof(int) * size);
+    q->size = size;
+    q->n = 0;
+
+    return q;
+}
+
 int parent(int i)
 {
     return((i - 1) / 2);
@@ -7,54 +18,21 @@ int parent(int i)
 
 int left(int i)
 {
-    return(2*i + 1);
+    return(2 * i + 1);
 }
 
 int right(int i)
 {
-    return (2*i + 2);
+    return (2 * i + 2);
 }
 
-void maxHeapify(int* array, int size, int index)
-{
-    int l = left(index);
-    int r = right(index);
-    int biggest;
-
-    if(l < size && array[l] > array[index])
-    {
-        biggest = l;
-    }
-    else
-    {
-        biggest = index;
-    }
-    if(r < size && array[r] > array[biggest])
-    {
-        biggest = r;
-    }
-    if(biggest != index)
-    {
-        swap(array, biggest, index);
-        maxHeapify(array, size, biggest);
-    }
-}
-
-void buildMaxHeap(int* array, int size)
-{
-    for(int i = (size / 2) - 1; i >= 0; i--)
-    {
-        maxHeapify(array, size, i);
-    }
-}
-
-void minHeapify(int* array, int size, int index)
+void minHeapify(PQueue* q, int index)
 {
     int l = left(index);
     int r = right(index);
     int smallest;
 
-    if(l < size && array[l] < array[index]) // which one is smaller: left or parent
+    if(l < q->n && q->array[l] < q->array[index]) // which is smaller: left or parent
     {
         smallest = l;
     }
@@ -63,38 +41,50 @@ void minHeapify(int* array, int size, int index)
         smallest = index;
     }
 
-    if(r < size && array[r] < array[smallest]) // which one is smaller: left, parent, or right
+    if(r < q->n && q->array[r] < q->array[smallest]) // which is the smallest: left, right or parent
     {
         smallest = r;
     }
+
     if(smallest != index)
     {
-        swap(array, smallest, index); // places the smallest in parent position
-        minHeapify(array, size, smallest); 
+        swap(q, smallest, index); // the smallest goes to parent position
+        minHeapify(q, smallest); 
     }
 }
 
-void buildMinHeap(int* array, int size)
+void buildMinHeap(PQueue* q)
 {
-    for(int i = (size / 2) - 1; i >= 0; i--) // i = 4,3,2,1,0
+    for(int i = (q->n / 2) - 1; i >= 0; i--)
     {
-        minHeapify(array, size, i);
+        minHeapify(q, i);
     }
 }
 
-void swap(int* array, int pos1, int pos2)
+void swap(PQueue* q, int pos1, int pos2)
 {
-    int aux = array[pos1];
-    array[pos1] = array[pos2];
-    array[pos2] = aux;
+    int aux = q->array[pos1];
+    int aux_index = q->index[pos1];
+
+    q->array[pos1] = q->array[pos2];
+    q->index[pos1] = q->index[pos2];
+
+    q->array[pos2] = aux;
+    q->index[pos2] = aux_index;
 }
 
-void printArray(int* array, int size)
+void printPQueue(PQueue* q)
 {
-    printf("array: ");
-    for(int i = 0; i != size; i++)
+    printf("Priority Queue:\n");
+    printf("Index: ");
+    for(int i = 0; i < q->n; i++)
     {
-        printf("%d ", array[i]);
+        printf("%d ", q->index[i]);
+    }
+    printf("\nData:  ");
+    for(int i = 0; i < q->n; i++)
+    {
+        printf("%d ", q->array[i]);
     }
     printf("\n");
 }
